@@ -32,9 +32,14 @@
             if(!file_exists($fileLocation)) {
                 mkdir($fileLocation);
             }
-
-            Image::make("$base_url/$asset->name")->crop(704, 544, 0, 0)->resizeCanvas(2048, 1024, 'top-left')->save("$fileLocation/$fileName");
-            echo "Completed Conversion - $fileName\n";
+            try {
+                Image::make("$base_url/$asset->name")->crop(704, 544, 0, 0)->resizeCanvas(2048, 1024, 'top-left')->save("$fileLocation/$fileName");
+                echo "Completed Conversion - $fileName\n";
+            } catch(\Intervention\Image\Exception\NotReadableException $exception) {
+                echo "FAILED - $fileName\n";
+                echo "Dumping Variables:\n";
+                echo "$base_url/$asset->name\n\n";
+            }
         }
     }
     echo "\n\nFinished!";
