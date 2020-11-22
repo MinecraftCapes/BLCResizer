@@ -1,7 +1,7 @@
 <?php
 
     //CHANGE THIS
-    $ASSET_URL = "https://client-jars.badlion.net/common-assets/PRODUCTION/v2.17.2-8c2d4d8-PRODUCTION-assets.json";
+    $ASSET_URL = "https://client-jars.badlion.net/common-assets/PRODUCTION/v2.17.2-5af8115-PRODUCTION-assets.json";
 
     //Don't change me
     $base_url = "https://client-jars.badlion.net/common-assets/PRODUCTION/assets";
