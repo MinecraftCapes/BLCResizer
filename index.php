@@ -1,10 +1,10 @@
 <?php
 
     //CHANGE THIS
-    $ASSET_URL = "https://client-jars.badlion.net/common-assets/PRODUCTION/v2.17.2-d2211e7-PRODUCTION-assets.json";
+    $ASSET_URL = "https://client-jars.badlion.net/common-assets/PRODUCTION3/v3.3.1-9c7b4b4-PRODUCTION3-assets.json";
 
     //Don't change me
-    $base_url = "https://client-jars.badlion.net/common-assets/PRODUCTION/assets";
+    $base_url = "https://client-jars.badlion.net/common-assets/PRODUCTION3/assets";
 
     // Include composer autoload
     require 'vendor/autoload.php';
