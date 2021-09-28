@@ -1,10 +1,12 @@
 <?php
 
     //CHANGE THIS
-    $ASSET_URL = "https://client-jars.badlion.net/common-assets/PRODUCTION3/v3.3.1-9c7b4b4-PRODUCTION3-assets.json";
+    // $ASSET_URL = "https://client-jars.badlion.net/common-assets/PRODUCTION3/v3.4.1-19fbed2-PRODUCTION3-assets.json";
+    $ASSET_URL = "https://client-jars.badlion.net/common-assets/INSIDER3/v3.4.1-0a703e6-INSIDER3-assets.json";
 
     //Don't change me
-    $base_url = "https://client-jars.badlion.net/common-assets/PRODUCTION3/assets";
+    // $base_url = "https://client-jars.badlion.net/common-assets/PRODUCTION3/assets";
+    $base_url = "https://client-jars.badlion.net/common-assets/INSIDER3/assets";
 
     // Include composer autoload
     require 'vendor/autoload.php';
