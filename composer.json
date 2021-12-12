@@ -7,7 +7,6 @@
         }
     ],
     "require": {
-        "intervention/image": "^2.5",
-        "grinderspro/directory-manipulator": "^1.0"
+        "intervention/image": "^2.5"
     }
 }
