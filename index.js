@@ -8,56 +8,93 @@ const axios = require('axios');
 const cliProgress = require('cli-progress');
 const fs = require('fs');
 const path = require('path');
+const sharp = require('sharp');
 
 //CHANGE THIS
-const ASSET_URL = "https://client-jars.badlion.net/common-assets/PRODUCTION3/v3.8.1-9b55b70-PRODUCTION3-assets.json";
+const ASSET_URL = "https://client-jars.badlion.net/common-assets/PRODUCTION3/v3.9.0.1-4a32816-PRODUCTION3-assets.json";
 // const ASSET_URL = "https://client-jars.badlion.net/common-assets/INSIDER3/v3.4.1-0a703e6-INSIDER3-assets.json";
 
 //Don't change me
-const base_url = "https://client-jars.badlion.net/common-assets/PRODUCTION3/assets";
-// const base_url = "https://client-jars.badlion.net/common-assets/INSIDER3/assets";
+const base_url = "https://client-jars.badlion.net/common-assets/PRODUCTION3/assets/";
+// const base_url = "https://client-jars.badlion.net/common-assets/INSIDER3/assets/";
 
 /**
  * Start all requires functions
  */
- async function start() {
-    logger.info("Request endpoints...")
-    await axios.get(ASSET_URL).then((response) => {
-        logger.info("Obtained endpoints.");
-        Object.entries(response.data).forEach(([key, _value]) => {
-            if(key.includes("assets/minecraft/blc/textures/cosmetics/cloak")) {
-                let fileName = path.basename(key);
-                let fileLocation = `images/${key.replace("assets/minecraft/blc/textures/cosmetics/cloak/", "").replace(fileName, "")}`;
+async function start() {
+    //Create a progress bar
+    const progressBar = new cliProgress.SingleBar({
+        stopOnComplete: true
+    }, cliProgress.Presets.shades_classic);
+    progressBar.on('stop', () => {
+        logger.info("Downloaded Capes")
+        return;
+    })
 
-                //We only really want png files
-                if(!fileName.endsWith(".png")) {
-                    return;
-                }
+    logger.info("Requesting assets...")
+    axios.get(ASSET_URL).then((response) => {
+        logger.info("Obtained assets.");
 
-                //Lets not redownload the same stuff
-                if(fs.existsSync(`${fileLocation}${fileName}`)) {
-                    return;
-                }
+        //Filted used items
+        logger.info("Filtering api response...")
+        let allCapes = Object.entries(response.data).filter(([key, _value]) => key.includes("assets/minecraft/blc/textures/cosmetics/cloak"))
+        logger.info("Filtering complete!")
 
-                //Lets make the folder for the cape
-                if(!fs.existsSync(fileLocation)) {
-                    fs.mkdir(fileLocation);
-                }
+        //Start a progress bar
+        logger.info("Downloading capes, this can take a long time...")
+        progressBar.start(allCapes.length, 0);
 
-                //Download the png file
-                // try {
-                //     Image::make("$base_url/$asset->name")->crop(704, 544, 0, 0)->resizeCanvas(2048, 1024, 'top-left')->save("$fileLocation/$fileName");
-                //     echo "Completed Conversion - $fileName\n";
-                // } catch(\Intervention\Image\Exception\NotReadableException $exception) {
-                //     echo "FAILED - $fileName\n";
-                //     echo "Dumping Variables:\n";
-                //     echo "$base_url/$asset->name\n\n";
-                // }
+        //Loop through capes
+        allCapes.forEach(([key, asset]) => {
+            let fileName = path.basename(key);
+            let fileLocation = `images/${key.replace("assets/minecraft/blc/textures/cosmetics/cloak/", "").replace(fileName, "")}`;
+
+            //We only really want png files
+            if(!fileName.endsWith(".png")) {
+                return;
             }
+
+            //Lets not redownload the same stuff
+            if(fs.existsSync(`${fileLocation}${fileName}`)) {
+                return;
+            }
+
+            //Lets make the folder for the cape
+            if(!fs.existsSync(fileLocation)) {
+                fs.mkdirSync(fileLocation, { recursive: true });
+            }
+
+            //Download and convert images
+            let textureUrl = `${base_url}${asset.name}`
+            axios.get(textureUrl, { responseType: 'arraybuffer' }).then((res) => {
+                let image = sharp(res.data)
+                image.metadata().then((metadata) => {
+                    return image.extract({ left: 0, top: 0, width: metadata.width, height: Math.round(metadata.width * (17 / 22)) })
+                        .resize(352, 272, {
+                            fith: 'fill',
+                            position: 'left top'
+                        })
+                    .then((image) => {
+                        image.extend({ top: 0, left: 0, bottom: 1024 - metadata.height, right: 2048 - metadata.width })
+                        .toFile(`${fileLocation}${fileName}`)
+                        .catch(err => {
+                            logger.error(`${err} - ${textureUrl}`);
+                        })
+                        .finally(() => {
+                            progressBar.increment();
+                        })
+                    })
+                });
+            }).catch((error) => {
+                progressBar.increment();
+                logger.error(`Failed to download texture - ${textureUrl}`)
+                logger.error(error.message);
+            });
         })
     }).catch((error) => {
-        logger.error("Obtaining endpoints failed.")
-        logger.error(error);
+        progressBar.stop();
+        logger.error("Obtaining assets failed.")
+        logger.error(error.message);
     })
 }
 

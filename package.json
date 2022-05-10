@@ -3,7 +3,6 @@
   "description": "Converts Badlion \"Cloaks\" to a compatiable MinecraftCapes Cape (https://minecraftcapes.net)",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,6 +19,7 @@
   "dependencies": {
     "axios": "^0.27.2",
     "cli-progress": "^3.11.0",
-    "log4js": "^6.4.6"
+    "log4js": "^6.4.6",
+    "sharp": "^0.30.4"
   }
 }

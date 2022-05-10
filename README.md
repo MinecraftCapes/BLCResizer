@@ -5,8 +5,10 @@ Converts Badlion "Cloaks" to a compatiable MinecraftCapes Cape (https://minecraf
 
 ## Built With
 
-* [Intervention Image](http://image.intervention.io/) - For Image manipulation
-* [Directory Manipulator](https://github.com/grinderspro/directory-manipulator) - For Lazy directory
+* [Sharp](https://sharp.pixelplumbing.com/) - For Image manipulation
+* Axios
+* Log4js
+* CLI-Progress
 
 ## Authors
 
