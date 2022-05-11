@@ -61,11 +61,13 @@ async function start() {
 
         //We only really want png files
         if(!fileName.endsWith(".png")) {
+            progressBar.increment();
             return;
         }
 
         //Lets not redownload the same stuff
         if(fs.existsSync(`${fileLocation}${fileName}`)) {
+            progressBar.increment()
             return;
         }
 
@@ -84,20 +86,13 @@ async function start() {
                     fith: 'fill',
                     position: 'left top'
                 })
-                .extend({ top: 0, left: 0, bottom: 512 - 272, right: 1024 - 352 })
+                .extend({ top: 0, left: 0, bottom: 512 - 272, right: 1024 - 352, background: { r: 0, g: 0, b: 0, alpha: 0 } })
                 .toFile(`${fileLocation}${fileName}`)
-                .catch(err => {
-                    logger.error(`${err} - ${textureUrl}`);
-                })
-                .finally(() => {
-                    progressBar.increment();
-                })
+                .catch(err => logger.error(`Failed to manipulate texture - ${err} - ${textureUrl}`))
+                .finally(() => progressBar.increment())
             })
-        }).catch((error) => {
-            progressBar.increment();
-            logger.error(`Failed to download texture - ${textureUrl}`)
-            logger.error(error.message);
-        });
+        }).catch((error) => logger.error(`Failed to download texture - ${textureUrl} ${error.message}`))
+        .finally(() => progressBar.increment())
     })
 }
 
