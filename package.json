@@ -17,9 +17,9 @@
   },
   "homepage": "https://github.com/MinecraftCapes/BLCResizer#readme",
   "dependencies": {
-    "axios": "^0.27.2",
-    "cli-progress": "^3.11.0",
-    "log4js": "^6.4.6",
-    "sharp": "^0.30.4"
+    "axios": "^1.6.3",
+    "cli-progress": "^3.12.0",
+    "log4js": "^6.9.1",
+    "sharp": "^0.33.1"
   }
 }

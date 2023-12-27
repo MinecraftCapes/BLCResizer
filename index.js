@@ -12,12 +12,12 @@ const { exit } = require("process");
 const sharp = require('sharp');
 
 //CHANGE THIS
-const ASSET_URL = "https://client-jars.badlion.net/common-assets/PRODUCTION3/v3.9.0.1-4a32816-PRODUCTION3-assets.json";
-// const ASSET_URL = "https://client-jars.badlion.net/common-assets/INSIDER3/v3.4.1-0a703e6-INSIDER3-assets.json";
+const ASSET_URL = "https://client-jars.badlion.net/common-assets/PRODUCTION4/v4.0.0-a84656f-PRODUCTION4-assets.json";
+// const ASSET_URL = "https://client-jars.badlion.net/common-assets/INSIDER4/v3.4.1-0a703e6-INSIDER4-assets.json";
 
 //Don't change me
-const base_url = "https://client-jars.badlion.net/common-assets/PRODUCTION3/assets/";
-// const base_url = "https://client-jars.badlion.net/common-assets/INSIDER3/assets/";
+const base_url = "https://client-jars.badlion.net/common-assets/PRODUCTION4/assets/";
+// const base_url = "https://client-jars.badlion.net/common-assets/INSIDER4/assets/";
 
 /**
  * Start all requires functions
